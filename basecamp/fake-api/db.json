@@ -1,0 +1,29 @@
+{
+  "todos": [
+    {
+      "id": 1,
+      "text": "Lavar as roupas",
+      "done": true
+    },
+    {
+      "id": 2,
+      "text": "Lavar o quintal",
+      "done": false
+    },
+    {
+      "id": 3,
+      "text": "Lavar a louça",
+      "done": false
+    },
+    {
+      "id": 4,
+      "text": "Estudar programação",
+      "done": true
+    },
+    {
+      "text": "Beber água",
+      "done": true,
+      "id": 5
+    }
+  ]
+}
