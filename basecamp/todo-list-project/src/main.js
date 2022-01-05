@@ -1,8 +1,55 @@
+import { createApp } from 'vue'
 import Todos from './api/todos'
 import './assets/css/main.css'
 
 const apiTodos = new Todos()
 
+const app = createApp({
+  // renderizar coisas na tela
+  data() {
+    return {
+      todos: [],
+      form: {
+        text: '',
+        done: false,
+      },
+    }
+  },
+  // hooks (gancho) -> vai executar qlq coisa quando a pagina carregar
+  created() {
+    this.fetchTodos()
+  },
+  // metodos e executaveis via html, ex: funcao click
+  methods: {
+    async fetchTodos() {
+      this.todos = await apiTodos.index()
+    },
+    async createTodo() {
+      const data = await apiTodos.store(this.form)
+      this.todos.push(data)
+
+      this.form.text = ''
+      this.form.done = false
+    },
+    async toggleTodoStatus(todo) {
+      const data = await apiTodos.update({
+        ...todo,
+        done: !todo.done,
+      })
+  
+      const index = this.todos.findIndex(({ id }) => id === data.id)
+      this.todos[index] = data
+    },
+    async destroyTodo(id) {
+      await apiTodos.destroy({ id })
+
+      const index = this.todos.findIndex((todo) => todo.id === id)
+      this.todos.splice(index, 1) // remover o todo apenas 1x
+    }
+  },
+})
+
+app.mount('#app')
 
 /* <li class="todo">
   <label class="checkbox-input">
@@ -12,7 +59,6 @@ const apiTodos = new Todos()
   <span class="todo-text">Lavar Roupa</span>
   <a class="todo-delete"></a>
 </li> */
-
 
 // ======== RENDERIZAR OS ITENS COM JS PURO ====================
 /*
