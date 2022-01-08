@@ -1,10 +1,12 @@
 import express from 'express'
+import cors from 'cors'
 import { v4 as uuid } from 'uuid'
 
 const server = express()
 const PORT = 3333
 
 server.use(express.json())
+server.use(cors())
 
 interface User {
   id: string
@@ -42,7 +44,7 @@ server.put('/users/:id', (request, response) => {
   const { name, email } = request.body
 
   // localizar o usuário na base de dados
-  const userIndex = users.findIndex((user) => user.id === id)
+  const userIndex = users.findIndex(user => user.id === id)
 
   // se o usuário não existir, retornar um erro
   if (userIndex < 0) {
@@ -62,7 +64,7 @@ server.delete('/users/:id', (request, response) => {
   const { id } = request.params
 
   // localizar o usuário na base de dados ( array users )
-  const userIndex = users.findIndex((user) => user.id === id)
+  const userIndex = users.findIndex(user => user.id === id)
 
   // se o usuário não existir, retornar um erro
   if (userIndex < 0) {
